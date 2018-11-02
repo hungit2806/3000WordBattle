@@ -11,6 +11,7 @@
     "react-native": "0.57.3",
     "react-native-elevated-view": "0.0.6",
     "react-native-responsive-screen": "^1.1.9",
+    "react-native-simple-animations": "^0.1.2",
     "react-navigation": "^2.18.2"
   },
   "devDependencies": {

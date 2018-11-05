@@ -10,6 +10,7 @@
     "react": "16.6.0-alpha.8af6728",
     "react-native": "0.57.3",
     "react-native-elevated-view": "0.0.6",
+    "react-native-fbsdk": "^0.8.0",
     "react-native-responsive-screen": "^1.1.9",
     "react-native-simple-animations": "^0.1.2",
     "react-navigation": "^2.18.2"

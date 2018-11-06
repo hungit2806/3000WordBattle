@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "801195824412",
+    "firebase_url": "https://wordbattle-b7935.firebaseio.com",
+    "project_id": "wordbattle-b7935",
+    "storage_bucket": "wordbattle-b7935.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:801195824412:android:31600ef4cbbf0310",
+        "android_client_info": {
+          "package_name": "com.wordbattle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "801195824412-lovdv1ejtjasro602qbg4kjp88kshf4e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDe8JaaNXGIOOIWWnyqBFqexYLqohRxPY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,7 +1,7 @@
 /** @format */
 
 import {AppRegistry} from 'react-native';
-import createStackNavigator from './src/components/App';
 import {name as appName} from './app.json';
+import App from './src/components/App'
 
-AppRegistry.registerComponent(appName, () => createStackNavigator);
+AppRegistry.registerComponent(appName, () => App);

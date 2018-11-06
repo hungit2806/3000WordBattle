@@ -32,12 +32,14 @@ export const stylesMenuCard = StyleSheet.create({
         marginTop:hp('2.5%'),
         marginLeft:hp('2.5%'),
         flexDirection:'row',
+        paddingTop:hp('2.5%'),
+        paddingLeft:hp('2.5%')
     },
     imgCategory:{
         height:hp('7%'),
         width:hp('7%'),
-        marginTop:hp('2.5%'),
-        marginLeft:hp('2.5%')
+        // marginTop:hp('2.5%'),
+        // marginLeft:hp('2.5%')
     },
     containerTitle:{
         height: hp('17%'),

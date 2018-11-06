@@ -8,10 +8,11 @@ export default class Login extends Component {
         header: null
     }
     render() {
+        console.log(this.props)
         return (
             <View style={stylesLogin.container}>
                 <Logo></Logo>
-                <Form></Form>
+                <Form  navigation = {this.props.navigation}></Form>
             </View>
         )
     }

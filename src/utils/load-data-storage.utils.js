@@ -7,6 +7,11 @@ const storage = new Storage({
     sync: {
     }
 })
+export function removeDataStorage(key){
+    storage.remove({
+        key: key,          
+      });
+}
 export function saveDataStorage(key,data){
     storage.save({
         key: key,   

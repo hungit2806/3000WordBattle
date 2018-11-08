@@ -9,6 +9,8 @@ import {
 
     RESET_LOADING,
     RESET_LOADING_STORAGE,
+
+    ADD_USER_INFO_GOOGLE
 } from "../actions/login.actions";
 const initialState = {
     userInfo: [],
@@ -43,8 +45,9 @@ export default function loadUserInfoReducer(state = initialState, action) {
                 loadingUserInfoStorage: false,
             });
         case LOADING_USER_INFO_STORAGE_FULFILLED:
+        console.log(action)
             return Object.assign({}, state, {
-                userInfoStorage: action.userInfoStorage.toString(),
+                userInfoStorage: action.userInfoStorage,
                 loadingUserInfoStorage: true,
             });
         case LOADING_USER_INFO_STORAGE_FAILED:
@@ -59,6 +62,11 @@ export default function loadUserInfoReducer(state = initialState, action) {
         case RESET_LOADING:
             return Object.assign({}, state, {
                 loadingUser: false,
+            });
+        case ADD_USER_INFO_GOOGLE:
+        console.log(ADD_USER_INFO_GOOGLE)
+            return Object.assign({}, state, {
+                userInfo: action.userInfo,
             });
         default:
             return state;

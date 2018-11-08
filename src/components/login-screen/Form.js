@@ -7,20 +7,28 @@ import {
   TouchableOpacity,
   Image
 } from 'react-native';
-import { LOADING_USER_INFO, LOADING_USER_INFO_STORAGE, RESET_LOADING_STORAGE } from '../../actions/login.actions'
+import { StackActions,NavigationActions } from 'react-navigation';
+import { LOADING_USER_INFO, ADD_USER_INFO_GOOGLE } from '../../actions/login.actions'
 import { connect } from "react-redux";
 import Toast from 'react-native-simple-toast';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { LoginButton, AccessToken } from 'react-native-fbsdk';
 import { LoginManager } from 'react-native-fbsdk';
 import { saveDataStorage } from '../../utils/load-data-storage.utils'
+import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 
 class LogSignScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isPass: false
+      user: false
     }
+  }
+  componentWillMount() {  
+    GoogleSignin.hasPlayServices(); 
+    GoogleSignin.configure({
+      webClientId: '801195824412-lovdv1ejtjasro602qbg4kjp88kshf4e.apps.googleusercontent.com'
+    })
   }
   handleCallbackLogin(result) {
     let _this = this
@@ -30,11 +38,9 @@ class LogSignScreen extends Component {
       AccessToken.getCurrentAccessToken().then(
         (data) => {
           const dataPublish = data
-          console.log(dataPublish)
           _this.props.getUserInfo(dataPublish)
         })
         .catch(function (err) {
-          console.log(err);
         });
     }
   }
@@ -46,13 +52,44 @@ class LogSignScreen extends Component {
       }
     )
   }
-  logout() {
-    LoginManager.logout();
-  }
+  async signInGoogle () {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = GoogleSignin.signIn().then((user) => {
+        var userInfoStorage = {
+          type: "google",
+          email:user.user.id,
+          id: user.user.id,
+          accessToken: user.accessToken,
+          userName: user.user.familyName + " " + user.user.givenName,
+          photo:user.user.photo
+        }
+        saveDataStorage('loginState',userInfoStorage)
+        this.props.addUserInfoGoogle(userInfoStorage)
+        this.props.navigation.dispatch(StackActions.reset({index: 0, actions:[NavigationActions.navigate({routeName: 'Home'})]}))
+      })
+      .catch((err) => {
+        Toast.show(err.toString());
+      })
+      .done();     
+    } catch (error) {
+      Toast.show(err.toString());
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (f.e. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+    }
+  };
+
   componentDidUpdate() {
     if (this.props.userInfo.loadingUser && !this.props.userInfo.failed) {
       saveDataStorage('loginState', this.props.userInfo.userInfo)
-      this.props.navigation.push("Home")
+      this.props.navigation.dispatch(StackActions.reset({index: 0, actions:[NavigationActions.navigate({routeName: 'Home'})]}))
     }
     // if(this.props.userInfo.loadingUserInfoStorage && this.props.userInfo.userInfoStorage){
     //   this.props.navigation.push("Home")
@@ -91,8 +128,8 @@ class LogSignScreen extends Component {
               <Text style={styles.buttonTextFB}>Facebook</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity>
-            <View style={styles.containerBtnGG} onPress={this.logout.bind(this)}>
+          <TouchableOpacity onPress={this.signInGoogle.bind(this)}>
+            <View style={styles.containerBtnGG} >
               <Image style={{ width: hp('4%'), height: hp('4%'), }} source={require('../../assets/icons/google.png')}></Image>
               <Text style={styles.buttonTextFB}>Google</Text>
             </View>
@@ -110,6 +147,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getUserInfo: (publicInfo) => dispatch({ type: LOADING_USER_INFO, publicInfo: publicInfo }),
+    addUserInfoGoogle: (userInfo) => dispatch({ type: ADD_USER_INFO_GOOGLE, userInfo: userInfo }), 
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(LogSignScreen);

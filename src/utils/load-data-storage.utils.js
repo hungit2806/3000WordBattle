@@ -25,7 +25,6 @@ export function loadDataStorage(key) {
         console.log(ret)
         return ret
     }).catch(err => {
-        console.log(err)
         return "error"
     });
 }

@@ -42,10 +42,10 @@ function loadUserFB(data) {
   const url =
     "https://graph.facebook.com/v2.8/me?fields=id,first_name,last_name,gender,birthday,email&access_token=" + data.accessToken;
   return apiRequestGet(url).then(result => {
-    console.log(result)
     var userProfile = {
       type: "facebook",
       id: result.data.id,
+      email: typeof result.data.email !== "undefined"?result.data.email:'',
       accessToken: data.accessToken,
       userName: result.data.first_name + " " + result.data.last_name
     };
